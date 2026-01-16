@@ -41,7 +41,7 @@ The Model Context Protocol (MCP) is an open protocol that standardizes how appli
 
 - Java 17 or higher
 - Gradle 8.8 or higher
-- TRANSCONNECT Connector SDK 0.9.4+
+- TRANSCONNECT Connector SDK 0.9.6+
 
 ## Building
 
@@ -79,8 +79,6 @@ The connector is configured using the TRANSCONNECT Connector YAML descriptor loc
 
 ## Development
 
-## Deployment
-
 1. Build the WAR file:
    ```bash
    ./gradlew build
@@ -90,17 +88,21 @@ The connector is configured using the TRANSCONNECT Connector YAML descriptor loc
 
 3. Configure the connector through the TRANSCONNECT UI
 
-## Version Catalog
+## Testing
 
-The project uses Gradle version catalogs (`gradle/libs.versions.toml`) for centralized dependency management. All dependencies and plugin versions are defined in this file.
+For testing you can use the [MCP Everywhere Server](https://github.com/modelcontextprotocol/servers/tree/main/src/everything) by setting the connector property `server` to
 
-## TODO
+```
+npx -y @modelcontextprotocol/server-everything stdio
+```
+
+## Open Points
 
 - [ ] Add support for other content results as `TextContent`
-  - [ ] `ImageContent`
-  - [ ] `EmbeddedResource`
+    - [ ] `ImageContent`
+    - [ ] `EmbeddedResource`
 - [ ] Check if `TextContent` contains well-known formats such as JSON
-  - [ ] Transform to XML instead of dumping everything as CDATA
+    - [ ] Transform to XML instead of dumping everything as CDATA
 
 ## License
 
@@ -109,20 +111,3 @@ This project is licensed under the MIT License.
 Developed by SQL Projekt AG.
 
 See [LICENSE.md](LICENSE.md) file for details.
-
-## Contributing
-
-Contributions are welcome! Please follow these steps:
-
-1. Fork the repository
-2. Create a feature branch from `main`
-3. Make your changes
-4. Submit a pull request
-
-## Support
-
-For issues, questions, and feature requests, please use the [GitHub Issues](../../issues) page.
-
-## Related Links
-
-- [MCP Servers](https://github.com/modelcontextprotocol/servers)
