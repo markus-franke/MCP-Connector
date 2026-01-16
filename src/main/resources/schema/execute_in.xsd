@@ -1,0 +1,35 @@
+<?xml version="1.0"?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+            targetNamespace="http://transconnect.io/connector/mcp/execute/in"
+            xmlns="http://transconnect.io/connector/mcp/execute/in"
+            elementFormDefault="qualified">
+
+    <xsd:simpleType name="name">
+        <xsd:restriction base="xsd:string"/>
+    </xsd:simpleType>
+
+    <xsd:element name="ROOT">
+        <xsd:complexType>
+            <xsd:sequence>
+                <xsd:element name="TOOL" minOccurs="1" maxOccurs="unbounded">
+                    <xsd:complexType>
+                        <xsd:sequence>
+                            <xsd:element name="PARAM" minOccurs="0" maxOccurs="unbounded">
+                                <xsd:complexType>
+                                    <xsd:simpleContent>
+                                        <xsd:extension base="xsd:string">
+                                            <xsd:attribute name="NAME" type="name" use="required"/>
+                                            <xsd:attribute name="TYPE" type="xsd:string" use="required"/>
+                                        </xsd:extension>
+                                    </xsd:simpleContent>
+                                </xsd:complexType>
+                            </xsd:element>
+                        </xsd:sequence>
+                        <xsd:attribute name="NAME" type="name" use="required"/>
+                    </xsd:complexType>
+                </xsd:element>
+            </xsd:sequence>
+        </xsd:complexType>
+    </xsd:element>
+
+</xsd:schema>

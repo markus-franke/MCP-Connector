@@ -1,0 +1,28 @@
+<?xml version="1.0"?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+            targetNamespace="http://transconnect.io/connector/mcp/listtools/out"
+            xmlns="http://transconnect.io/connector/mcp/listtools/out"
+            elementFormDefault="qualified">
+
+    <xsd:element name="ROOT">
+        <xsd:complexType>
+            <xsd:sequence>
+                <xsd:element name="RETURN">
+                    <xsd:complexType>
+                        <xsd:sequence>
+                            <xsd:element name="TOOL" maxOccurs="unbounded">
+                                <xsd:complexType>
+                                    <xsd:sequence>
+                                        <xsd:element name="NAME" type="xsd:string"/>
+                                        <xsd:element name="DESCRIPTION" type="xsd:string"/>
+                                    </xsd:sequence>
+                                </xsd:complexType>
+                            </xsd:element>
+                        </xsd:sequence>
+                    </xsd:complexType>
+                </xsd:element>
+            </xsd:sequence>
+        </xsd:complexType>
+    </xsd:element>
+
+</xsd:schema>
