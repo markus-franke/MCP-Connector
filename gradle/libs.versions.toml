@@ -1,0 +1,22 @@
+[versions]
+connector-sdk = "0.9.6"
+slf4j-api = "1.7.36"
+mcp-bom = "0.10.0"
+guava = "32.1.1-jre"
+xjc = "1.8.2"
+
+[libraries]
+slf4j-api = { module = "org.slf4j:slf4j-api", version.ref = "slf4j-api" }
+
+connector-api = { module = "io.transconnect.connector:api", version.ref = "connector-sdk" }
+connector-war-bridge = { module = "io.transconnect.connector:war-connector-bridge", version.ref = "connector-sdk" }
+connector-yaml-descriptor = { module = "io.transconnect.connector.extensions:yaml-descriptor", version.ref = "connector-sdk" }
+connector-jaxb = { module = "io.transconnect.connector.extensions:jaxb", version.ref = "connector-sdk" }
+
+mcp-bom = { module = "io.modelcontextprotocol.sdk:mcp-bom", version.ref = "mcp-bom" }
+mcp = { module = "io.modelcontextprotocol.sdk:mcp" }
+
+guava = { module = "com.google.guava:guava", version.ref = "guava" }
+
+[plugins]
+xjc = { id = "com.github.bjornvester.xjc", version.ref = "xjc" }

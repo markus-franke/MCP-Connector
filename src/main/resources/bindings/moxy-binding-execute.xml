@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+// This moxy binding is used to specify that the data string that contains the command
+// output is wrapped in a cdata element. This can not be specified with xml schema.
+-->
+<xml-bindings xmlns="http://www.eclipse.org/eclipselink/xsds/persistence/oxm" package-name="io.transconnect.connector.mcp.execute.out">
+    <java-types>
+        <java-type name="ROOT$RETURN">
+            <java-attributes>
+                <xml-element name="DATA" java-attribute="data" cdata="true"/>
+            </java-attributes>
+        </java-type>
+    </java-types>
+</xml-bindings>

@@ -1,0 +1,117 @@
+specVersion: 1.0.0
+common:
+  type: "urn:transconnect:connector:mcp"
+  version: "${version ?: 'unknown'}"
+  vendor: SQL Projekt AG
+  displayName:
+    - locale: de
+      message: MCP Konnektor
+    - locale: en
+      message: MCP Connector
+  description:
+    - locale: de
+      message: Konnektor zum Ausführen von Tools über das MCP (Model Context Protocol) Interface.
+    - locale: en
+      message: Connector to execute tools via the MCP (Model Context Protocol) interface.
+  labels: [ ]
+properties:
+  - id: requestTimeout
+    displayName:
+      - locale: de
+        message: Zeitüberschreitung für Anfragen
+      - locale: en
+        message: Timeout for requests
+    description:
+      - locale: de
+        message: Setzt die Dauer (in Millisekunden), die auf Serverantworten gewartet wird, bevor Anfragen abgebrochen werden. Dieses Timeout gilt für alle über den Client getätigten Anfragen, einschließlich Toolaufrufen, Ressourcenabrufen und Prompt-Operationen.
+      - locale: en
+        message: Sets the duration (in milliseconds) to wait for server responses before timing out requests. This timeout applies to all requests made through the client, including tool calls, resource access, and prompt operations.
+    type: INTEGER
+    defaultValue: 10000
+    required: true
+    validator:
+      type: RANGE
+      config:
+        min: 1
+        max: 1000000
+  - id: transport
+    displayName:
+      - locale: de
+        message: Transport Protokoll
+      - locale: en
+        message: Transport Protocol
+    description:
+      - locale: de
+        message: Legt das Transportprotokoll fest, das für die Kommunikation mit dem MCP-Server verwendet wird. Unterstützte Protokolle sind STDIO und HTTP mit SSE.
+      - locale: en
+        message: Specifies the transport protocol used for communication with the MCP server. Supported protocols are STDIO and HTTP with SSE.
+    type: SELECT
+    entries:
+      - id: "STDIO"
+        displayName:
+          - locale: de
+            message: "STDIO"
+          - locale: en
+            message: "STDIO"
+      - id: "HTTP_SSE"
+        displayName:
+          - locale: de
+            message: "HTTP mit SSE"
+          - locale: en
+            message: "HTTP with SSE"
+    defaultValue: "STDIO"
+    required: true
+  - id: server
+    displayName:
+      - locale: de
+        message: "Server"
+      - locale: en
+        message: "Server"
+    description:
+      - locale: de
+        message: "für STDIO Transport: Kommando + Argument um Server zu starten, für HTTP mit SSE: Server URL"
+      - locale: en
+        message: "For STDIO transport: Command + arguments to start the server, for HTTP with SSE: Server URL"
+    type: TEXT
+    required: true
+  - id: environment
+    displayName:
+      - locale: de
+        message: "Umgebungsvariablen"
+      - locale: en
+        message: "Environment Variables"
+    description:
+      - locale: de
+        message: "Umgebungsvariablen, die für den MCP-Server gesetzt werden sollen. Diese Variablen werden in der Form 'KEY=VALUE' angegeben und durch Semikolon getrennt. Wird nur für STDIO Transport verwendet."
+      - locale: en
+        message: "Environment variables to be set for the MCP server. These variables are specified in the form 'KEY=VALUE' and separated by semicolons. Used only for STDIO transport."
+    type: TEXT
+    required: false
+interactions:
+  - id: "execute"
+    displayName:
+      - locale: de
+        message: "Tool ausführen"
+      - locale: en
+        message: "Execute tool"
+    description:
+      - locale: de
+        message: "Führt ein Tool aus, das über das MCP (Model Context Protocol) Interface verfügbar ist. Der Client sendet eine Anfrage an den Server, um das Tool mit den angegebenen Parametern auszuführen. Die Antwort enthält die Ergebnisse der Ausführung."
+      - locale: en
+        message: "Executes a tool available via the MCP (Model Context Protocol) interface. The client sends a request to the server to execute the tool with the specified parameters. The response contains the results of the execution."
+    inMessageXsd: schema/execute_in.xsd
+    outMessageXsd: schema/execute_out.xsd
+  - id: "listtools"
+    displayName:
+      - locale: de
+        message: "Tools auflisten"
+      - locale: en
+        message: "List tools"
+    description:
+      - locale: de
+        message: "Verfügbare Tools auflisten"
+      - locale: en
+        message: "List available tools"
+    inMessageXsd: schema/listtools_in.xsd
+    outMessageXsd: schema/listtools_out.xsd
+
