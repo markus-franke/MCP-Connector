@@ -1,5 +1,5 @@
 [versions]
-connector-sdk = "0.9.6"
+connector-sdk = "1.0.0"
 slf4j-api = "1.7.36"
 mcp-bom = "0.10.0"
 guava = "32.1.1-jre"
