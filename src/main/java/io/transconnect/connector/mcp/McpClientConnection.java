@@ -18,6 +18,7 @@ import io.modelcontextprotocol.spec.McpSchema.CallToolResult;
 import io.modelcontextprotocol.spec.McpSchema.ClientCapabilities;
 import io.modelcontextprotocol.spec.McpSchema.Content;
 import io.modelcontextprotocol.spec.McpSchema.TextContent;
+import io.modelcontextprotocol.spec.McpSchema.ImageContent;
 import io.transconnect.connector.api.Configuration;
 import io.transconnect.connector.api.Context;
 import io.transconnect.connector.api.TransconnectConnectorException;
@@ -26,8 +27,10 @@ import io.transconnect.connector.api.message.Message;
 import io.transconnect.connector.api.message.WritableMessage;
 import io.transconnect.connector.extension.jaxb.JaxbExtension;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.net.URI;
 import java.time.Duration;
+import java.util.Base64;
 import java.util.List;
 import java.util.Optional;
 import org.slf4j.Logger;
@@ -183,11 +186,25 @@ public class McpClientConnection implements ConsumerConnection {
         CallToolResult callToolResult = mcpSyncClient.callTool(callToolRequest);
 
         // evaluate tool result
+        int imageCount = 0;
         StringBuilder textResultBuilder = new StringBuilder();
         for (Content content : callToolResult.content()) {
             if ("text".equals(content.type())) {
                 TextContent textContent = (TextContent) content;
                 textResultBuilder.append(textContent.text());
+            }
+            else if("image".equals(content.type())) {
+                ImageContent imageContent = (ImageContent) content;
+
+                // get file extension from MIME type (e.g. "image/png" -> "png")
+                String fileExtension = imageContent.mimeType().split("/")[1];
+                String attachmentId = String.format("image_%d.%s", imageCount++, fileExtension);
+                try(OutputStream outputStream = output.getAttachmentOutputStream(attachmentId)) {
+                    outputStream.write(Base64.getDecoder().decode(imageContent.data()));
+                } catch (IOException e) {
+                    LOG.error(String.format("Unable to add attachment '%s'", attachmentId), e);
+                }
+
             } else {
                 LOG.warn(
                         "Unsupported content type '{}' in tool result for tool '{}'. Result will be empty.",
