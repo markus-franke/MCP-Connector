@@ -135,7 +135,7 @@ public class McpClientConnection implements ConsumerConnection {
     private void executeInteractionExecute(Message input, WritableMessage output)
             throws TransconnectConnectorException {
         io.transconnect.connector.mcp.execute.in.ROOT root = jaxbExtension.unmarshalMessage(
-                input, io.transconnect.connector.mcp.execute.in.ROOT.class, "/schema/execute_in.xsd", null);
+                input, io.transconnect.connector.mcp.execute.in.ROOT.class, "schema/execute_in.xsd", null);
 
         var resultRoot = new io.transconnect.connector.mcp.execute.out.ROOT();
 
