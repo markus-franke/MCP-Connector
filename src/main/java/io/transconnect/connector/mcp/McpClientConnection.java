@@ -19,6 +19,9 @@ import io.modelcontextprotocol.spec.McpSchema.ClientCapabilities;
 import io.modelcontextprotocol.spec.McpSchema.Content;
 import io.modelcontextprotocol.spec.McpSchema.TextContent;
 import io.modelcontextprotocol.spec.McpSchema.ImageContent;
+import io.modelcontextprotocol.spec.McpSchema.EmbeddedResource;
+import io.modelcontextprotocol.spec.McpSchema.TextResourceContents;
+import io.modelcontextprotocol.spec.McpSchema.BlobResourceContents;
 import io.transconnect.connector.api.Configuration;
 import io.transconnect.connector.api.Context;
 import io.transconnect.connector.api.TransconnectConnectorException;
@@ -187,6 +190,7 @@ public class McpClientConnection implements ConsumerConnection {
 
         // evaluate tool result
         int imageCount = 0;
+        int resourceCount = 0;
         StringBuilder textResultBuilder = new StringBuilder();
         for (Content content : callToolResult.content()) {
             if ("text".equals(content.type())) {
@@ -202,9 +206,22 @@ public class McpClientConnection implements ConsumerConnection {
                 try(OutputStream outputStream = output.getAttachmentOutputStream(attachmentId)) {
                     outputStream.write(Base64.getDecoder().decode(imageContent.data()));
                 } catch (IOException e) {
-                    LOG.error(String.format("Unable to add attachment '%s'", attachmentId), e);
+                    LOG.error("Unable to add attachment '{}'", attachmentId, e);
                 }
 
+            } else if("resource".equals(content.type())) {
+                EmbeddedResource embeddedResource = (EmbeddedResource) content;
+                String attachmentId = String.format("resource_%d", resourceCount++);
+                try(OutputStream outputStream = output.getAttachmentOutputStream(attachmentId)) {
+                    if (embeddedResource.resource() instanceof TextResourceContents textResourceContents) {
+                        outputStream.write(textResourceContents.text().getBytes());
+                    }
+                    else if (embeddedResource.resource() instanceof BlobResourceContents blobResourceContents) {
+                        outputStream.write(blobResourceContents.blob().getBytes());
+                    }
+                } catch (IOException e) {
+                    LOG.error("Unable to add attachment '{}'", attachmentId, e);
+                }
             } else {
                 LOG.warn(
                         "Unsupported content type '{}' in tool result for tool '{}'. Result will be empty.",

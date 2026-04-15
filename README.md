@@ -98,8 +98,6 @@ npx -y @modelcontextprotocol/server-everything stdio
 
 ## Open Points
 
-- [ ] Add support for other content results as `TextContent`
-    - [ ] `EmbeddedResource`
 - [ ] Check if `TextContent` contains well-known formats such as JSON
     - [ ] Transform to XML instead of dumping everything as CDATA
 
