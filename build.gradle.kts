@@ -40,6 +40,7 @@ dependencies {
 
     // Testing
     testImplementation(libs.junit.jupiter.api)
+    testImplementation("org.assertj:assertj-core:3.27.7")
     testImplementation(testFixtures(libs.connector.api))
     testRuntimeOnly(libs.junit.jupiter.engine)
     testRuntimeOnly("org.junit.platform:junit-platform-launcher")
