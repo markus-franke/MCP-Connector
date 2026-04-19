@@ -201,7 +201,7 @@ public class McpClientConnection implements ConsumerConnection {
                 ImageContent imageContent = (ImageContent) content;
 
                 // get file extension from MIME type (e.g. "image/png" -> "png")
-                String fileExtension = imageContent.mimeType().split("/")[1];
+                String fileExtension = com.google.common.net.MediaType.parse(imageContent.mimeType()).subtype();
                 String attachmentId = String.format("image_%d.%s", imageCount++, fileExtension);
                 try(OutputStream outputStream = output.getAttachmentOutputStream(attachmentId)) {
                     outputStream.write(Base64.getDecoder().decode(imageContent.data()));
